@@ -2,6 +2,8 @@ package cv.hexadus.seeddesafiocdc.author;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,16 +21,26 @@ public class RegisterAuthorController {
     private final AuthorRepository repository;
     @PersistenceContext
     private EntityManager manager;
+    private final AuthorUniqueEmailValidator authorUniqueEmailValidator;
 
-    public RegisterAuthorController(AuthorRepository repository) {
+    public RegisterAuthorController(AuthorRepository repository, AuthorUniqueEmailValidator authorUniqueEmailValidator) {
         this.repository = repository;
+        this.authorUniqueEmailValidator = authorUniqueEmailValidator;
+    }
+
+    @InitBinder
+    public void init(WebDataBinder binder) {
+        binder.addValidators(authorUniqueEmailValidator);
     }
 
     @Transactional
     @PostMapping
-    public ResponseEntity<Object> registerAuthor(@RequestBody @Valid RegisterAuthorRequest request){
+    public ResponseEntity<Object> registerAuthor(@RequestBody @Valid RegisterAuthorRequest request) {
         Author author = request.toModel();
         manager.persist(author);
-        return new ResponseEntity<>(author, HttpStatus.OK);
+
+        AuthorInfo authorInfo = AuthorInfo.toDto(author);
+        return new ResponseEntity<>(authorInfo, HttpStatus.OK);
     }
+
 }

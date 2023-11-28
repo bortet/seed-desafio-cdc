@@ -4,21 +4,20 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class APIResponse {
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private final LocalDateTime timestamp = LocalDateTime.now();
-    private boolean status;
-    private String statusText;
+    private final boolean status;
+    private final String statusText;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<Object> details;
+    private final ResponseDetail data;
 
     private APIResponse(Builder builder) {
         status = builder.status;
         statusText = builder.statusText;
-        details = builder.details;
+        data = builder.details;
     }
 
     public LocalDateTime getTimestamp() {
@@ -33,14 +32,14 @@ public class APIResponse {
         return statusText;
     }
 
-    public List<Object> getDetails() {
-        return details;
+    public ResponseDetail getData() {
+        return data;
     }
 
     public static final class Builder {
         private boolean status;
         private String statusText;
-        private List<Object> details;
+        private ResponseDetail details;
 
         private Builder() {
         }
@@ -59,7 +58,7 @@ public class APIResponse {
             return this;
         }
 
-        public Builder details(List<Object> val) {
+        public Builder details(ResponseDetail val) {
             details = val;
             return this;
         }

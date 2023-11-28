@@ -5,13 +5,15 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+
 public class RegisterAuthorRequest {
     @NotBlank(message = "[author registration] - name cannot be empty.")
-    @NotNull(message = "[author registration] - name cannot be null.")
+    /*@NotNull(message = "[author registration] - name cannot be null.")*/
     private String name;
 
     @NotNull(message = "[author registration] - email cannot be null.")
     @Email(message = "[author registration] - email field must be a valid email format.")
+    /*@UniqueEmailValidator*/
     private String email;
     @NotNull(message = "[author registration] - description cannot be null.")
     @NotBlank(message = "[author registration] - description cannot be empty.")
