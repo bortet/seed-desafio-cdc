@@ -1,5 +1,7 @@
 package cv.hexadus.seeddesafiocdc.author;
 
+import cv.hexadus.seeddesafiocdc.validator.UniqueValue;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,6 +16,7 @@ public class RegisterAuthorRequest {
     @NotNull(message = "[author registration] - email cannot be null.")
     @Email(message = "[author registration] - email field must be a valid email format.")
     /*@UniqueEmailValidator*/
+    @UniqueValue(domainClass = Author.class, fieldName = "email")
     private String email;
     @NotNull(message = "[author registration] - description cannot be null.")
     @NotBlank(message = "[author registration] - description cannot be empty.")

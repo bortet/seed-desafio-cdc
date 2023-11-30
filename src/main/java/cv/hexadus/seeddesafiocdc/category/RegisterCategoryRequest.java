@@ -1,11 +1,13 @@
 package cv.hexadus.seeddesafiocdc.category;
 
+import cv.hexadus.seeddesafiocdc.validator.UniqueValue;
+
 import javax.validation.constraints.NotBlank;
 
 public class RegisterCategoryRequest {
 
     @NotBlank(message = "name cannot be null.")
-    @UniqueCategoryValidator
+    @UniqueValue(domainClass = Category.class, fieldName = "name")
     private String name;
 
     public RegisterCategoryRequest() {

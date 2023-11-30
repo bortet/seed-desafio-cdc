@@ -21,17 +21,17 @@ public class RegisterAuthorController {
     private final AuthorRepository repository;
     @PersistenceContext
     private EntityManager manager;
-    private final AuthorUniqueEmailValidator authorUniqueEmailValidator;
+    /*private final AuthorUniqueEmailValidator authorUniqueEmailValidator;*/
 
-    public RegisterAuthorController(AuthorRepository repository, AuthorUniqueEmailValidator authorUniqueEmailValidator) {
+    public RegisterAuthorController(AuthorRepository repository) {
         this.repository = repository;
-        this.authorUniqueEmailValidator = authorUniqueEmailValidator;
+     /*   this.authorUniqueEmailValidator = authorUniqueEmailValidator;*/
     }
-
+/*
     @InitBinder
     public void init(WebDataBinder binder) {
         binder.addValidators(authorUniqueEmailValidator);
-    }
+    }*/
 
     @Transactional
     @PostMapping
