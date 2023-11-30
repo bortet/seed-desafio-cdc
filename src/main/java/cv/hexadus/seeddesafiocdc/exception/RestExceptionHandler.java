@@ -63,6 +63,44 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(error, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(RecordNotFoundException.class)
+    public final ResponseEntity<Object> handleRecordNotFound(Exception ex, WebRequest request) {
+
+        String message = ex.getMessage();
+        ResponseDetail responseDetail = ResponseDetail.Builder.newBuilder()
+                .error(ErrorResponse.Builder.newBuilder()
+                        .globalError(List.of(message))
+                        .numberOfErrors(1)
+                        .build())
+                .build();
+
+        APIResponse error = APIResponse.Builder.newBuilder()
+                .status(true)
+                .statusText(HttpStatus.NOT_FOUND.name())
+                .details(responseDetail)
+                .build();
+
+        return new ResponseEntity<Object>(error, HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(BadRequestException.class)
+    public final ResponseEntity<Object> handleBadRequest(Exception ex, WebRequest request) {
+        String message = ex.getMessage();
+        ResponseDetail responseDetail = ResponseDetail.Builder.newBuilder()
+                .error(ErrorResponse.Builder.newBuilder()
+                        .globalError(List.of(message))
+                        .numberOfErrors(1)
+                        .build())
+                .build();
+        APIResponse error = APIResponse.Builder.newBuilder()
+                .statusText(HttpStatus.BAD_REQUEST.name())
+                .details(responseDetail)
+                .build();
+
+        return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> unhandledException(Exception ex, WebRequest request) {
 

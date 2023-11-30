@@ -1,5 +1,7 @@
 package cv.hexadus.seeddesafiocdc.author;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import cv.hexadus.seeddesafiocdc.book.Book;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
@@ -7,9 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity(name = "author")
 @Table
@@ -27,6 +32,9 @@ public class Author {
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdDate;
+    @JsonIgnore
+    @OneToMany(mappedBy = "author")
+    private List<Book> book;
 
     public Author() {
     }

@@ -40,7 +40,7 @@ public class UniqueValueValidatorImpl implements ConstraintValidator<UniqueValue
         context.buildConstraintViolationWithTemplate("value: [" + fieldValue + "], already registered.")
                 .addConstraintViolation();
 
-        //Assert.isTrue(resultList.isEmpty(), "Value already registered.");
+        entityManager.close();
         return isValid;
     }
 }
