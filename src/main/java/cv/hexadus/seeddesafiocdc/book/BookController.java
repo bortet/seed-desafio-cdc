@@ -49,11 +49,9 @@ public class BookController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<APIResponse> getBookList(@RequestParam(value = "page", defaultValue = "0") int pageNumber,
-                                                   @RequestParam(value = "size", defaultValue = "10") int pageSize){
-
-        // SELECT 1 from " + this.aClass.getName()
+    @PostMapping("list")
+    public ResponseEntity<APIResponse> getBookList(@RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
+                                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
         Query query = entityManager.createQuery("SELECT b FROM Book b", Book.class);
         query.setFirstResult((pageNumber) * pageSize);
         query.setMaxResults(pageSize);
@@ -70,4 +68,6 @@ public class BookController {
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
+
+
 }
