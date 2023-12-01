@@ -3,6 +3,8 @@ package cv.hexadus.seeddesafiocdc.exception;
 import cv.hexadus.seeddesafiocdc.util.APIResponse;
 import cv.hexadus.seeddesafiocdc.util.ErrorResponse;
 import cv.hexadus.seeddesafiocdc.util.ResponseDetail;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +14,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
@@ -101,6 +103,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public final ResponseEntity<Object> unhandledIllegalStateException(IllegalStateException ex, WebRequest request) {
+
+        logger.error(ex.getLocalizedMessage());
+        String message = ex.getMessage();
+        String localizedMessage = ex.getLocalizedMessage();
+        Error error = new Error(localizedMessage, message);
+        ResponseDetail responseDetail = ResponseDetail.Builder.newBuilder()
+                .error(ErrorResponse.Builder.newBuilder().errors(List.of(error)).build())
+                .build();
+        APIResponse response = APIResponse.Builder.newBuilder()
+                .status(false)
+                .statusText(HttpStatus.INTERNAL_SERVER_ERROR.name())
+                .details(responseDetail)
+                .build();
+
+        return new ResponseEntity<Object>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> unhandledException(Exception ex, WebRequest request) {
 

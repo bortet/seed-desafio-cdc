@@ -1,5 +1,9 @@
 package cv.hexadus.seeddesafiocdc.validator;
 
+import cv.hexadus.seeddesafiocdc.exception.BadRequestException;
+import cv.hexadus.seeddesafiocdc.exception.ConflictException;
+import cv.hexadus.seeddesafiocdc.exception.RecordNotFoundException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.validation.ConstraintValidator;
@@ -28,8 +32,10 @@ public class ExistIdValidatorImpl implements ConstraintValidator<ExistId, Long> 
         Query query = entityManager.createQuery("SELECT 1 FROM " + this.aClass.getName() + " WHERE " + this.domainId + "=:value");
         query.setParameter("value", value);
         List<?> resultList = query.getResultList();
-        if(resultList.isEmpty())
+        if (resultList.isEmpty()) {
             return false;
+            //throw new RecordNotFoundException(this.aClass.getSimpleName() + " with " + this.domainId + " " + value + " was not found.");
+        }
         return true;
     }
 }

@@ -1,6 +1,8 @@
 package cv.hexadus.seeddesafiocdc.exception;
 
-public class RecordNotFoundException extends RuntimeException {
+import javax.validation.ConstraintDeclarationException;
+
+public class RecordNotFoundException extends ConstraintDeclarationException {
 
     public RecordNotFoundException(String message) {
         super(message);

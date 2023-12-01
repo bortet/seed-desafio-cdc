@@ -4,6 +4,8 @@ import cv.hexadus.seeddesafiocdc.author.Author;
 import cv.hexadus.seeddesafiocdc.category.Category;
 import cv.hexadus.seeddesafiocdc.validator.ExistId;
 import cv.hexadus.seeddesafiocdc.validator.UniqueValue;
+import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.Future;
@@ -65,6 +67,8 @@ public class RegisterBookRequest {
         Category category = entityManager.find(Category.class, categoryCode);
         Author author = entityManager.find(Author.class, authorCode);
 
+        Assert.state(author != null, "Author with id: " + this.authorCode + " was not found.");
+        Assert.state(category != null, "Category with id: " + this.categoryCode + " was not found.");
         return new Book(title, summary, sinopsys, price, totalPage, isbn, publishdate, category, author);
     }
 }
