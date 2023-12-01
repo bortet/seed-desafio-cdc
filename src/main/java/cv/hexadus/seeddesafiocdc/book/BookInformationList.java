@@ -6,16 +6,16 @@ import java.util.List;
 
 public class BookInformationList {
 
-    private final List<BookInformation> bookInformationList;
+    private final List<BookListingInformation> bookListingInformationList;
     private final Pagination pagination;
 
-    public BookInformationList(List<BookInformation> bookInformationList, Pagination pagination) {
-        this.bookInformationList = bookInformationList;
+    public BookInformationList(List<BookListingInformation> bookListingInformationList, Pagination pagination) {
+        this.bookListingInformationList = bookListingInformationList;
         this.pagination = pagination;
     }
 
-    public List<BookInformation> getBookInformationList() {
-        return bookInformationList;
+    public List<BookListingInformation> getBookInformationList() {
+        return bookListingInformationList;
     }
 
     public Pagination getPagination() {
