@@ -1,7 +1,6 @@
 package cv.hexadus.seeddesafiocdc.book;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class ProductInformation {
     private final double price;

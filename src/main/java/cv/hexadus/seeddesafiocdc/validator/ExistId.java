@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = ExistIdValidatorImpl.class)
 public @interface  ExistId {
 
-    String message() default "value not found.";
+    String message() default "record not found.";
 
     Class<?>[] groups() default {};
 
